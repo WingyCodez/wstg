@@ -306,15 +306,15 @@ Imagine a simple web application that accepts a name-value pair of "magic" and t
 
 To further simplify the example, the values in this case can only be ASCII characters a – z (upper or lowercase) and integers 0 – 9.
 
-The designers of this application created an administrative backdoor during testing, but obfuscated it to prevent the casual observer from discovering it. By submitting the value sf8g7sfjdsurtsdieerwqredsgnfg8d (30 characters), the user will then be logged in and presented with an administrative screen with total control of the application. The HTTP request is now: `http://www.host/application?magic=sf8g7sfjdsurtsdieerwqredsgnfg8d`
+The designers of this application created an administrative backdoor during testing, but obfuscated it to prevent the casual observer from discovering it. By submitting the value sf8g7sfjdsurtsdieerwqredsgnfg8d (31 characters), the user will then be logged in and presented with an administrative screen with total control of the application. The HTTP request is now: `http://www.host/application?magic=sf8g7sfjdsurtsdieerwqredsgnfg8d`
 
-Given that all of the other parameters were simple two- and three-characters fields, it is not possible to start guessing combinations at approximately 28 characters. A web application scanner will need to brute force (or guess) the entire key space of 30 characters. That is up to 30\^28 permutations, or trillions of HTTP requests. That is an electron in a digital haystack.
+Given that all of the other parameters were simple two- and three-characters fields, it is not possible to start guessing combinations at approximately 28 characters. A web application scanner will need to brute force (or guess) the entire key space of 31 characters. That is up to 31\^28 permutations, or trillions of HTTP requests. That is an electron in a digital haystack.
 
 The code for this exemplar Magic Parameter check may look like the following:
 
 ```java
 public void doPost( HttpServletRequest request, HttpServletResponse response) {
-  String magic = "sf8g7sfjdsurtsdieerwqredsgnfg8d";
+  String magic = "sf8g7sfjdsurtsdieerwqredsgnfg8d"; // There is 31 characters in String magic, if i am not losing my mind...
   boolean admin = magic.equals( request.getParameter("magic"));
   if (admin) doAdmin( request, response);
   else … // normal processing
